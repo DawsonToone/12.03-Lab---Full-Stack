@@ -9,7 +9,7 @@ router.get('/', function(req, res, next){
         console.error('Error fetching todos:', err);
         return res.status(500).send('Error fetching todos');
       }
-      res.render('index', { title: 'My Simple TODO', todos: results });
+      res.render('index', { title: 'Your Own Customizable Todo List', todos: results });
     });
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -19,6 +19,11 @@ router.get('/', function(req, res, next){
 
 router.post('/create', function (req, res, next) {
     const { task } = req.body;
+
+    // Check to see if task is blank, asks user to enter something in if so
+    if (task == '') {
+      return res.status(500).send('Tasks cannot be blank');
+    }
     try {
       req.db.query('INSERT INTO todos (task) VALUES (?);', [task], (err, results) => {
         if (err) {
@@ -32,6 +37,32 @@ router.post('/create', function (req, res, next) {
     } catch (error) {
       console.error('Error adding todo:', error);
       res.status(500).send('Error adding todo');
+    }
+});
+
+// New route which handles editing existing tasks
+router.post('/edit', function (req, res, next) {
+    const { id, task, completed } = req.body;
+
+    // Check to see if task is blank, asks user to enter something in if so
+    if (task == '') {
+      return res.status(400).send('Tasks cannot be blank');
+    }
+
+    const isCompleted = completed ? 1 : 0;
+
+    try {
+      req.db.query('UPDATE todos SET task = ?, completed = ? WHERE id = ?;', [task, isCompleted, id], (err, results) => {
+        if (err) {
+          console.error('Error edting todo:', err);
+          return res.status(500).send('Error edting todo');
+        }
+        console.log('Todo edited successfully:', results);
+        res.redirect('/');
+      });
+    } catch (error) {
+      console.error('Error edting todo:', error);
+      res.status(500).send('Error edting todo');
     }
 });
 

@@ -1,8 +1,32 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgb(250, 237, 255);
+  padding: 40px;
+  font: 15px monospace;
+  color: rgb(83, 27, 122);
 }
 
-a {
-  color: #00B7FF;
+hr {
+  height: 2px;
+  color: rgb(83, 27, 122);
+  border-width: 0px;
+  background-color: rgb(83, 27, 122);
 }
+
+input[type="checkbox"] {
+  accent-color: rgb(154, 57, 191);
+}
+
+button[type="submit"] {
+  border-color: rgb(83, 27, 122);
+  border-width: 1px;
+  background-color: rgb(221, 159, 245);
+  color: rgb(83, 27, 122);
+}
+
+input[type="text"] {
+  border-color: rgb(83, 27, 122);
+  border-width: 1px;
+  background-color: rgb(254, 250, 255);
+  color: rgb(83, 27, 122);
+}
+

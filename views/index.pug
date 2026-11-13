@@ -2,22 +2,34 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Add a task using the prompt below, then feel free to edit its contents, mark it as complete, or delete it.
+  hr
+  h2 Current Tasks:
   ol
   each val in todos
     li
-      span= val.task + ' - '
-      if val.completed > 0
-        span Completed
-      else
-        span Not Completed
+      // Adds edit button which updates current task to a new value
+      form(method='POST' action='/edit')
+        input(type='hidden', name='id', value=val.id)
+        input(type='text', name='task', value=val.task, required)                 
+        button(type='submit') Edit Task
+
+      // Adds checkbox to show if a task is completed
+      label
+        input(type='checkbox', name='completed', checked=(val.completed > 0))
+        | Completed    
+        
       form(method='POST' action='/delete')
         input(type='hidden', name='id', value=val.id)
         button(type='submit') Delete
 
+        p 
+
   hr
   h2 Add a new task
   form(method='POST' action='/create')
-    label(for='task') Task:
+    label(for='task') Task: 
     input(type='text', name='task', id='task', required)
     button(type='submit') Create Task
+  p
+  hr
